@@ -32,12 +32,12 @@ class Project
           arrayStoryBoard-= [storyboardFileName];
         end
       end
-      if arrayStoryBoard.count >0
+      if arrayStoryBoard.count <1
         puts "Xcode 8 Storyboard not found"
       else
-        puts "Update Xcode 8 StoryBoards to Xcode 7 Storyboard [S/N] ?\n #{arrayStoryBoard} ?"
+        puts "Update Xcode 8 StoryBoards to Xcode 7 Storyboard [Y/N] ?\n #{arrayStoryBoard} ?"
         answer = gets.strip
-        if answer.upcase == "S"
+        if answer.upcase == "Y"
           update_storyboard_to_xcode7(arrayStoryBoard)
         end
       end
@@ -48,7 +48,7 @@ class Project
   def update_storyboard_to_xcode7(arrayStoryBoard)
     puts "Update"
   end
-  
+
 =begin
   private methods
 =end
