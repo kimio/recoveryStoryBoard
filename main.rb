@@ -29,7 +29,7 @@ class Project
       storyboardXcode8 = []
       for storyboardFileName in arrayStoryBoard
         doc = Nokogiri::XML(File.open(storyboardFileName))
-        if doc.xpath("//device").count > 0
+        if is_storyboard_xcode8(doc)
           storyboardXcode8.push([storyboardFileName,doc]);
         else
           arrayStoryBoard-= [storyboardFileName];
@@ -55,6 +55,15 @@ class Project
     end
   end
 
+  def is_storyboard_xcode8(doc_xml)
+    doc_xml.search('//capability').each do |node|
+      if node["minToolsVersion"] == "8.0"
+        return true
+      end
+    end
+    return false
+  end
+
   def update_storyboard_to_xcode7(storyboardXcode8)
     for file_and_storyboard in storyboardXcode8
       #remove device tag
@@ -69,8 +78,8 @@ class Project
     return storyboardXcode8
   end
 
-  ##Remove tag Methods
 
+  ##Remove tag Methods
   def remove_device_tag(storyboard)
     storyboard.search('//device').each do |node|
       node.remove
