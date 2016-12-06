@@ -8,6 +8,7 @@ Lib to parse XML / HTML
 require 'nokogiri'
 
 class Project
+
   attr_accessor :folder_project
   def initialize()
   end
@@ -22,7 +23,9 @@ class Project
     return arrayStoryBoard;
   end
 
-  def replace_storyboard(update_storyboard=false,override_files=false)
+  def replace_storyboard(options={})
+    update_storyboard = options.fetch(:update_storyboard, true)
+    override_files = options.fetch(:override_files, true)
     arrayStoryBoard = []
     Dir.chdir(@folder_project) do
       arrayStoryBoard = find_storyboard()
@@ -59,7 +62,11 @@ class Project
       end
     end
   end
-
+  
+=begin
+  private methods
+=end
+  private
   def is_storyboard_xcode8(doc_xml)
     doc_xml.search('//capability').each do |node|
       if node["minToolsVersion"] == "8.0"
@@ -107,7 +114,7 @@ class Project
     end
     return storyboard
   end
- 
+
   ##Override Xcode 8 files
   def override_xcode8_files(storyboardXcode8)
     for file_and_storyboard in storyboardXcode8
@@ -118,13 +125,5 @@ class Project
       end
     end
   end
-=begin
-  private methods
-=end
-  private :find_storyboard,
-  :update_storyboard_to_xcode7,
-  :remove_device_tag,
-  :remove_capability_tag,
-  :remove_simulated_metrics_container,
-  :override_xcode8_files
+
 end

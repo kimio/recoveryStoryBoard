@@ -6,4 +6,4 @@ Where is the folder project?"
 
 project = Project.new()
 project.folder_project = gets.strip
-project.replace_storyboard(true,true)
+project.replace_storyboard(update_storyboard:true,override_files:true)
